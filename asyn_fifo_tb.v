@@ -1,0 +1,43 @@
+module asyn_fifo_tb;
+  reg wr_clk,rd_clk,rst,wr_en,rd_en;
+  reg [DATA_WIDTH-1:0] din;
+  wire full,empty;
+  wire [DATA_WIDTH-1:0] dout;
+  parameter DATA_WIDTH=8;
+  parameter DEPTH=8;
+  parameter ADDR_WIDTH=3;
+  asyn_fifo dut(wr_clk,rd_clk,rst,wr_en,rd_en,din,dout,full,empty);
+  always #5 wr_clk= ~wr_clk;
+  always #5 rd_clk= ~rd_clk;
+  initial begin
+    $monitor("time=%t,wr_ptr_data=%d,dout=%d,wr_en=%b,rd_en=%b,full=%b empty=%b",$time,din,dout,wr_en,rd_en,full,empty);
+    $display("wr_ptr_data=%d,dout=%d,wr_en=%b,rd_en=%b,full=%b empty=%b",din,dout,wr_en,rd_en,full,empty);
+    wr_clk=0;
+    rd_clk=0;
+    rst=1;
+    wr_en=0;
+    rd_en=0;
+    din=0;
+    #20;
+    rst=0;
+    @ (posedge wr_clk);
+    wr_en=1;
+    din=8'd10;
+    @ (posedge wr_clk);
+    din=8'd20;
+    @ (posedge wr_clk);
+    din=8'd30;
+    @ (posedge wr_clk);
+    wr_en=0;
+    #20;
+    @(posedge rd_clk);
+    rd_en = 1;
+    @(posedge rd_clk);
+    @(posedge rd_clk);
+    @(posedge rd_clk);
+    @(posedge rd_clk);
+    rd_en = 0;
+    #20;
+    $finish;
+  end
+endmodule
