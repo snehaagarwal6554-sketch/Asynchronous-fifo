@@ -16,6 +16,7 @@ This project implements an **Asynchronous FIFO (First-In-First-Out)** using Veri
 | `asyn_fifo.v` | Verilog implementation of the Asynchronous FIFO |
 | `asyn_fifo_tb.v` | Testbench for simulation |
 | `README.md` | Project documentation |
+| `Simulation_Result`|
 
 ## Working
 - Data is written into the FIFO using the **write clock (`wr_clk`)**.
